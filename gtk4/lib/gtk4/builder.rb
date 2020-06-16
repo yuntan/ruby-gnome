@@ -144,12 +144,5 @@ module Gtk
       add(target)
       self
     end
-
-    alias_method :connect_signals_raw, :connect_signals
-    def connect_signals(&block)
-      connect_signals_raw do |*args|
-        self.class.connect_signal(*args, &block)
-      end
-    end
   end
 end

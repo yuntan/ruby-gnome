@@ -283,7 +283,7 @@ rb_gi_add_interface(G_GNUC_UNUSED VALUE self,
 {
     GType gtype_klass = 0;
     GType gtype_mod = 0;
-    GInterfaceInfo *info = NULL;
+    // GInterfaceInfo *info = NULL;
 
     gtype_klass = NUM2LONG(rb_gtype_klass);
     g_assert(G_TYPE_IS_CLASSED(gtype_klass));
@@ -291,11 +291,16 @@ rb_gi_add_interface(G_GNUC_UNUSED VALUE self,
     // info = (GInterfaceInfo *)RVAL2GI_BASE_INFO(rb_interface_info);
     // info->interface_init = interface_init;
     // info->interface_finalize = interface_finalize;
-    info = ALLOC(GInterfaceInfo);
-    info->interface_init = interface_init;
-    info->interface_finalize = interface_finalize;
+    // info = ALLOC(GInterfaceInfo);
+    // info->interface_init = interface_init;
+    // info->interface_finalize = interface_finalize;
 
-    g_type_add_interface_static(gtype_klass, gtype_mod, info);
+    // g_type_add_interface_static(gtype_klass, gtype_mod, info);
+
+    const GInterfaceInfo info = {
+        (GInterfaceInitFunc)(void (*)(void)) interface_init, NULL, NULL
+    };
+    g_type_add_interface_static (gtype_klass, gtype_mod, &info);
 }
 
 void
